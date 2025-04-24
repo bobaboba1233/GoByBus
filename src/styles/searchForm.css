@@ -1,0 +1,71 @@
+/* src/styles/components/searchform.css */
+
+.search-form {
+    max-width: 900px;  /* Увеличена максимальная ширина */
+    margin: 40px auto;  /* Увеличены отступы */
+    background: #f5f5f5;
+    padding: 30px;      /* Увеличен внутренний отступ */
+    border-radius: 12px; /* Увеличен радиус скругления */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-form form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;          /* Увеличен промежуток между элементами */
+  }
+  
+  .form-group {
+    flex: 1;
+    min-width: 220px;   /* Увеличена минимальная ширина */
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px; /* Увеличен отступ снизу */
+    font-weight: 500;
+    font-size: 16px;    /* Увеличен размер шрифта */
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 14px;      /* Увеличен внутренний отступ */
+    border: 1px solid #ddd;
+    border-radius: 6px;  /* Увеличен радиус скругления */
+    font-size: 16px;     /* Увеличен размер шрифта */
+    height: 48px;       /* Фиксированная высота */
+  }
+  
+  .search-button {
+    background-color: #1b1b1b;
+    color: white;
+    border: none;
+    padding: 14px 28px;  /* Увеличены отступы */
+    border-radius: 6px;  /* Увеличен радиус скругления */
+    cursor: pointer;
+    align-self: flex-end;
+    height: 48px;       /* Соответствует высоте input */
+    font-size: 16px;     /* Увеличен размер шрифта */
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #313131;
+  }
+  
+  /* Адаптация для мобильных */
+  @media (max-width: 768px) {
+    .search-form {
+      padding: 20px;
+      margin: 20px;
+    }
+    
+    .form-group {
+      min-width: 100%;
+    }
+    
+    .search-button {
+      width: 100%;
+    }
+  }

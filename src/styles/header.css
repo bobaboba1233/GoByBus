@@ -1,0 +1,48 @@
+.header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+  }
+  
+  .header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo img {
+    height: 70px;
+  }
+  .logo{
+    margin-top: 1%;
+    margin-left: -20%;
+  }
+  .nav {
+    display: flex;
+    gap: 150px;
+  }
+  
+  .nav a {
+    padding: 15px 50px;
+    color: #333;
+    font-weight: 500;
+    font-size: 17pt;
+  }
+  
+  .nav a:hover {
+    color: #d4d1d1;
+  }
+  
+  .auth-link {
+    background-color: #313131;
+    color: white !important;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-right: -250px;
+    
+  
+  }
+  
+  .auth-link:hover {
+    background-color: #5f6469;
+  }
