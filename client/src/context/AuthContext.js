@@ -1,7 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -9,21 +7,31 @@ export const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
 
-  // Проверка аутентификации при загрузке
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.get('http://localhost:5000/api/auth/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(res => {
-        setUser(res.data.user);
-        setIsAuth(true);
-      })
-      .catch(() => {
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const meRes = await fetch('http://localhost:5000/api/auth/me', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (meRes.ok) {
+            const user = await meRes.json();
+            setUser(user);
+            setIsAuth(true);
+          } else {
+            clearAuth();
+          }
+        }
+      } catch {
         clearAuth();
-      });
-    }
+      }
+    };
+
+    checkAuth();
   }, []);
 
   const clearAuth = () => {
@@ -34,13 +42,32 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
-      
-      localStorage.setItem('token', res.data.token);
-      setUser({ email });
+
+      if (!res.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await res.json();
+      console.log(data.token);  // Добавь это, чтобы увидеть, какой токен получен
+      localStorage.setItem('token', data.token);    
+
+      const meRes = await fetch('http://localhost:5000/api/auth/me', {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      });
+
+      if (!meRes.ok) {
+        throw new Error('Failed to fetch user');
+      }
+
+      const user = await meRes.json();
+      setUser(user);
       setIsAuth(true);
       return true;
     } catch (err) {
@@ -55,8 +82,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuth, setIsAuth, // Добавьте это
-        setUser, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuth, setUser, login, logout, setIsAuth }}>
       {children}
     </AuthContext.Provider>
   );

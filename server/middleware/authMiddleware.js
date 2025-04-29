@@ -1,18 +1,18 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function (req, res, next) {
-  const authHeader = req.header('Authorization');
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Нет токена, доступ запрещен' });
+module.exports = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];  // Получаем токен из заголовка
+
+  if (!token) {
+    return res.status(401).json({ message: 'Нет авторизации' });
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
-    const decoded = jwt.verify(token, 'your-secret-key'); // <-- тот же самый ключ
-    req.user = { id: decoded.userId }; // <-- ВАЖНО! userId из токена кладем как id
-    next();
+    // Проверяем токен с секретным ключом
+    const decoded = jwt.verify(token, 'bogdan'); // 'bogdan' - секретный ключ
+    req.userId = decoded.userId;  // Передаем userId в запрос
+    next();  // Продолжаем выполнение
   } catch (err) {
-    res.status(401).json({ message: 'Неверный токен' });
+    res.status(401).json({ message: 'Нет авторизации' });
   }
 };

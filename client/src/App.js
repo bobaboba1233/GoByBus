@@ -5,6 +5,8 @@ import Tours from './pages/Tours';
 import Login from './components/Login';
 import Profile from './pages/Profile';
 import { AuthProvider } from './context/AuthContext';
+import AdminPanel from './pages/admin';
+import AdminLogin from './pages/admin/login';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path = "/auth" element={<Login/>} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/test" element={<div>Test Page</div>} />
           <Route path="/tours" element={<Tours />} />
         </Routes>

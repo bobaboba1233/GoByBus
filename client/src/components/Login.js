@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext'; // Импортируем AuthContext
 import '../styles/Auth.css';
 
 const Login = ({ onClose, onSwitchToRegister }) => {
@@ -9,6 +9,7 @@ const Login = ({ onClose, onSwitchToRegister }) => {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser, setIsAuth } = useContext(AuthContext); // Используем контекст для доступа к setUser и setIsAuth
 
   const handleChange = (e) => {
     setFormData({
@@ -23,16 +24,33 @@ const Login = ({ onClose, onSwitchToRegister }) => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
-        email: formData.email,
-        password: formData.password
+      console.log('Form data:', formData);  // Логируем перед отправкой
+
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Ошибка входа');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
       
-      localStorage.setItem('token', response.data.token);
+      // Обновляем состояние аутентификации
+      setUser({ email: formData.email });
+      setIsAuth(true);
+
       onClose();
-      window.location.reload(); // Обновляем страницу после входа
     } catch (err) {
-      setError(err.response?.data.message || 'Ошибка входа');
+      console.error('Error response:', err.message);
+      setError(err.message || 'Ошибка входа');
     } finally {
       setIsLoading(false);
     }

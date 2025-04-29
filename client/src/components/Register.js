@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../styles/Auth.css';
 
 const Register = ({ onClose, onSwitchToLogin }) => {
@@ -28,18 +27,32 @@ const Register = ({ onClose, onSwitchToLogin }) => {
     }
 
     setIsLoading(true);
-    
+
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
-        email: formData.email,
-        password: formData.password
+      console.log('Form data:', formData);  // Логируем перед отправкой
+
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
       });
-      
-      localStorage.setItem('token', response.data.token);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Ошибка регистрации');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+
       onClose();
-      window.location.reload(); // Обновляем страницу после регистрации
+      window.location.reload();  // Перезагружаем страницу, чтобы обновить состояние
     } catch (err) {
-      setError(err.response?.data.message || 'Ошибка регистрации');
+      console.error('Error response:', err.message);
+      setError(err.message || 'Ошибка регистрации');
     } finally {
       setIsLoading(false);
     }

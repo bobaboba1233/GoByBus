@@ -1,26 +1,23 @@
-import React from 'react';
-import '../styles/searchForm.css';
+// components/SearchForm.js
+import { useState } from 'react';
+import '../styles/searchForm.css'; // Подключаем наш файл стилей
+import RouteList from "./RouteList"
+export default function SearchForm({ onSearch }) {
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [date, setDate] = useState('');
 
-const SearchForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch({ from, to, date });
+  };
+
   return (
-    <div className="search-form">
-      <form>
-        <div className="form-group">
-          <label htmlFor="from">Откуда</label>
-          <input type="text" id="from" placeholder="Город вылета" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="to">Куда</label>
-          <input type="text" id="to" placeholder="Город назначения" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="date">Дата</label>
-          <input type="date" id="date" />
-        </div>
-        <button type="submit" className="search-button">Найти</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="search-form">
+      <input value={from} onChange={(e) => setFrom(e.target.value)} placeholder="Откуда" required />
+      <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="Куда" required />
+      <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      <button type="submit">Найти</button>
+    </form>
   );
-};
-
-export default SearchForm;
+}

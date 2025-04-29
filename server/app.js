@@ -8,17 +8,20 @@ const routesRoutes = require('./routes/routes');
 
 // Настройка Express
 const app = express();
-const authRoutes = require('./routes/auth');
+app.use(express.json()); // Обработка JSON
+
 
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3000', // URL вашего фронтенда
+  credentials: true
 }));
-app.use(bodyParser.json()); // Парсим JSON-тело запроса
-
+app.use(bodyParser.json());
 // Подключение роутов
 app.use('/api/routes', routesRoutes);
 // Далее твои маршруты
 app.use('/api/auth', require('./routes/auth'));
+
+
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/gobybus', { 
   useNewUrlParser: true, 
