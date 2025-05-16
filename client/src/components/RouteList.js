@@ -25,7 +25,7 @@ const RouteList = ({ routes }) => {
             <th>Отправление</th>
             <th>Прибытие</th>
             <th>Время в пути</th>
-            <th>Тип транспорта</th>
+            <th>Номер автобуса</th>
             <th>Цена</th>
             <th></th>
           </tr>
@@ -52,8 +52,8 @@ const RouteList = ({ routes }) => {
               <td data-label="Время в пути">
                 {route.duration} ч
               </td>
-              <td data-label="Тип транспорта">
-                <span className="transport-badge">{route.transportType}</span>
+              <td data-label="Номер автобуса">
+                <span className="transport-number">{route.busNumber}</span>
               </td>
               <td data-label="Цена">
                 <span className="price">{route.price} ₽</span>
