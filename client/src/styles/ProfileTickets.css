@@ -1,0 +1,262 @@
+.profile-tickets {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px;
+}
+
+.pt-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 15px;
+}
+
+.pt-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.pt-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.pt-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pt-search-icon {
+  position: absolute;
+  left: 12px;
+  color: #7f8c8d;
+}
+
+.pt-search input {
+  padding: 10px 15px 10px 35px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 250px;
+  transition: border 0.3s;
+}
+
+.pt-search input:focus {
+  outline: none;
+  border-color: #4a6bff;
+}
+
+.pt-filter {
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.pt-tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.pt-ticket-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-left: 4px solid;
+}
+
+.pt-ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.pt-ticket-card.booked {
+  border-left-color: #353535;
+}
+
+.pt-ticket-card.used {
+  border-left-color: #27ae60;
+}
+
+.pt-ticket-card.cancelled {
+  border-left-color: #e74c3c;
+}
+
+.pt-ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.pt-ticket-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pt-status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pt-status.booked {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.pt-status.used {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.pt-status.cancelled {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.pt-ticket-body {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.pt-ticket-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #34495e;
+  font-size: 14px;
+}
+
+.pt-ticket-footer {
+  border-top: 1px dashed #e0e0e0;
+  padding-top: 12px;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.pt-empty {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.pt-empty-icon {
+  font-size: 50px;
+  color: #bdc3c7;
+  margin-bottom: 15px;
+}
+
+.pt-empty h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.pt-empty p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.pt-buy-btn {
+  background: #4a6bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.pt-buy-btn:hover {
+  background: #3a5bef;
+}
+
+.pt-loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.pt-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a6bff;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: pt-spin 1s linear infinite;
+}
+
+@keyframes pt-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pt-error {
+  text-align: center;
+  padding: 20px;
+  color: #e74c3c;
+}
+
+.pt-retry-btn {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-top: 50px;
+  cursor: pointer;
+}
+
+.pt-no-results {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 30px;
+  color: #7f8c8d;
+}
+
+.pt-clear-btn {
+  background: none;
+  border: none;
+  color: #4a6bff;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .pt-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .pt-search input {
+    width: 100%;
+  }
+  
+  .pt-filter {
+    width: 100%;
+  }
+  
+  .pt-tickets-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -11,10 +12,11 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem('token');
+        console.log('Token from localStorage:', token); // Логирование для отладки
         if (token) {
           const meRes = await fetch('http://localhost:5000/api/auth/me', {
             headers: {
-              Authorization: `Bearer ${token}`,
+              'Authorization': `Bearer ${token}`
             },
           });
 
@@ -26,7 +28,8 @@ export const AuthProvider = ({ children }) => {
             clearAuth();
           }
         }
-      } catch {
+      } catch (err) {
+        console.error('Ошибка при проверке аутентификации:', err);
         clearAuth();
       }
     };
@@ -53,12 +56,12 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await res.json();
-      console.log(data.token);  // Добавь это, чтобы увидеть, какой токен получен
-      localStorage.setItem('token', data.token);    
+      console.log('Received token:', data.token); // Логирование токена для отладки
+      localStorage.setItem('token', data.token);
 
       const meRes = await fetch('http://localhost:5000/api/auth/me', {
-        headers: {
-          Authorization: `Bearer ${data.token}`,
+         headers: {
+        'Authorization': `Bearer ${data.token}`,
         },
       });
 
@@ -71,6 +74,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuth(true);
       return true;
     } catch (err) {
+      console.error('Ошибка при логине:', err);
       clearAuth();
       return false;
     }

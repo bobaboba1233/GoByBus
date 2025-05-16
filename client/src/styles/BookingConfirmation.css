@@ -1,0 +1,313 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.confirmation-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f7fa;
+  padding: 70px;
+}
+
+.confirmation-card {
+  max-width: 800px;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+}
+
+.confirmation-header {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.success-icon {
+  color: var(--success);
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.confirmation-header h1 {
+  color: var(--text);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.ticket-id {
+  color: var(--text-light);
+  font-size: 16px;
+  background: var(--secondary);
+  padding: 8px 15px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.ticket-details {
+  display: grid;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.detail-section {
+  background: var(--secondary);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.detail-section h2 {
+  color: var(--text);
+  font-size: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row span {
+  color: var(--text-light);
+}
+
+.detail-row strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.price {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.seat-info {
+  position: relative;
+}
+
+.seat-number {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--primary);
+  text-align: center;
+  margin: 15px 0;
+}
+
+.bus-scheme {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.driver-place, .bus-exit {
+  position: absolute;
+  background: var(--secondary);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.driver-place {
+  top: 10px;
+  left: 10px;
+}
+
+.bus-exit {
+  top: 10px;
+  right: 10px;
+}
+
+.bus-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--seat-available);
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.seat.selected {
+  background: var(--seat-selected);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
+}
+
+.aisle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.print-btn, .home-btn {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  font-size: 16px;
+  border: none;
+}
+
+.print-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.print-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.home-btn {
+  background: white;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.home-btn:hover {
+  background: var(--secondary);
+}
+
+.confirmation-footer {
+  text-align: center;
+  margin-top: 30px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.booking-date {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* Состояния загрузки и ошибки */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 20px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--secondary);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-container, .not-found-container {
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.error-container h2, .not-found-container h2 {
+  color: var(--seat-booked);
+  margin-bottom: 15px;
+}
+
+.primary-btn {
+  padding: 12px 25px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s;
+}
+
+.primary-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .confirmation-card {
+    padding: 20px;
+  }
+  
+  .confirmation-actions {
+    flex-direction: column;
+  }
+  
+  .bus-row {
+    gap: 5px;
+  }
+  
+  .seat, .aisle {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
+
+@media print {
+  .confirmation-page {
+    background: white;
+    padding: 0;
+  }
+  
+  .confirmation-actions {
+    display: none;
+  }
+  
+  .confirmation-card {
+    box-shadow: none;
+    padding: 0;
+  }
+}

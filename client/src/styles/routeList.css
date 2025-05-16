@@ -1,0 +1,140 @@
+.route-list-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.route-list-container h2 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin: 0;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.route-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.route-table th {
+  background-color: #f8fafc;
+  color: #334155;
+  font-weight: 600;
+  padding: 16px 24px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.route-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.route-table tr:last-child td {
+  border-bottom: none;
+}
+
+.route-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.route-empty {
+  color: #64748b;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 60px 0;
+}
+
+.time-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-cell .time {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.time-cell .city {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.transport-badge {
+  background: #e0f2fe;
+  color: #000000;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.price {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.book-button {
+  background: #00050c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.book-button:hover {
+  background: #575858;
+}
+
+@media (max-width: 768px) {
+  .route-table {
+    display: block;
+  }
+  
+  .route-table thead {
+    display: none;
+  }
+  
+  .route-table tbody {
+    display: block;
+  }
+  
+  .route-table tr {
+    display: block;
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .route-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    text-align: right;
+    border-bottom: none;
+  }
+  
+  .route-table td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    color: #64748b;
+    margin-right: auto;
+    padding-right: 20px;
+    text-align: left;
+  }
+  
+  .route-table tr:last-child {
+    border-bottom: none;
+  }
+}

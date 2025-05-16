@@ -9,6 +9,7 @@ const Register = ({ onClose, onSwitchToLogin }) => {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');  // Для отображения успешного сообщения
 
   const handleChange = (e) => {
     setFormData({
@@ -20,9 +21,23 @@ const Register = ({ onClose, onSwitchToLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccessMessage('');  // Сброс успешного сообщения перед отправкой
 
     if (formData.password !== formData.confirmPassword) {
       setError('Пароли не совпадают');
+      return;
+    }
+
+    // Валидация email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Неверный формат email');
+      return;
+    }
+
+    // Валидация пароля
+    if (formData.password.length < 6) {
+      setError('Пароль должен содержать не менее 6 символов');
       return;
     }
 
@@ -33,7 +48,7 @@ const Register = ({ onClose, onSwitchToLogin }) => {
 
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({
           email: formData.email,
           password: formData.password
@@ -47,9 +62,15 @@ const Register = ({ onClose, onSwitchToLogin }) => {
 
       const data = await response.json();
       localStorage.setItem('token', data.token);
+      // Проверим, если пришло сообщение об отправке письма на почту
+      if (data.message) {
+        setSuccessMessage(data.message); // Покажем сообщение о подтверждении
+      }
 
+      // Если регистрация успешна, сохраним токен и перезагрузим страницу
       onClose();
       window.location.reload();  // Перезагружаем страницу, чтобы обновить состояние
+
     } catch (err) {
       console.error('Error response:', err.message);
       setError(err.message || 'Ошибка регистрации');
@@ -68,7 +89,8 @@ const Register = ({ onClose, onSwitchToLogin }) => {
         <h2 className="auth-title">Регистрация</h2>
         
         {error && <div className="auth-error">{error}</div>}
-        
+        {successMessage && <div className="auth-success">{successMessage}</div>}  {/* Сообщение об успехе */}
+
         <form onSubmit={handleSubmit}>
           <div className="auth-input-group">
             <label>Email</label>

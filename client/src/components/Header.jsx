@@ -57,8 +57,8 @@ const Header = () => {
                   <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
                     <FaUser className="menu-icon" /> Мой профиль
                   </Link>
-                  <Link to="/settings" onClick={() => setIsMenuOpen(false)}>
-                    <FaCog className="menu-icon" /> Настройки
+                  <Link to="/profileTickets" onClick={() => setIsMenuOpen(false)}>
+                    <FaCog className="menu-icon" /> Билеты
                   </Link>
                   <button onClick={() => { logout(); setIsMenuOpen(false); }}>
                     <FaSignOutAlt className="menu-icon" /> Выйти

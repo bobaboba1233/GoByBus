@@ -1,12 +1,12 @@
 /* Основные стили */
 .header {
-  background-color: #2c3e50;
+  background: linear-gradient(to right, #2c2c2cfd, #444453);
   padding: 15px 0;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(241, 78, 78, 0.1);
 }
 
 .container {
@@ -36,7 +36,7 @@
 }
 
 .nav a:hover {
-  color: #3498db;
+  color: #1e2022;
 }
 
 .auth-link {
@@ -48,10 +48,14 @@
   font-size: 16px;
   padding: 0;
   transition: color 0.3s;
+  /* Добавляем прозрачный фон для всех состояний */
+  background-color: transparent !important;
 }
 
 .auth-link:hover {
-  color: #3498db;
+  color: #050505;
+  /* Явно указываем, что фон должен оставаться прозрачным при наведении */
+  background-color: transparent !important;
 }
 
 /* Стили для аватара и меню */
@@ -65,7 +69,7 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #3498db;
+  border: 2px solid #3437db;
   transition: transform 0.3s;
 }
 
@@ -121,7 +125,7 @@
 
 .menu-icon {
   margin-right: 10px;
-  color: #7f8c8d;
+  color: #020516;
   font-size: 16px;
 }
 

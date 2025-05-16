@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Route = require('../models/Route');  // Модель маршрута
-const auth = require('../middleware/authMiddleware'); // Добавьте middleware
+const Ticket = require('../models/Ticket'); // Добавь это
 
 
 // Получение всех маршрутов (только для админа)
@@ -12,6 +12,19 @@ router.get('/routes', async (req, res) => {
     res.json(routes);  // Отправляем список маршрутов
   } catch (err) {
     res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+// Получение маршрута по id
+router.get('/routes/:id', async (req, res) => {
+  try {
+    const route = await Route.findById(req.params.id);
+    if (!route) {
+      return res.status(404).json({ message: 'Маршрут не найден' });
+    }
+    res.json(route);
+  } catch (error) {
+    console.error('Ошибка при получении маршрута:', error);
+    res.status(500).json({ message: 'Ошибка на сервере' });
   }
 });
 // Добавление нового маршрута (только для админа)
@@ -30,8 +43,14 @@ router.post('/routes', async (req, res) => {
   }
 
   try {
-    // Создание нового маршрута
-    const newRoute = new Route({ from, to, date: routeDate, price });
+    const { from, to, date, price, busNumber, duration, departureTime, arrivalTime } = req.body;
+
+if (!from || !to || !date || !price || !busNumber || !duration || !departureTime || !arrivalTime) {
+  return res.status(400).json({ message: 'Все поля обязательны!' });
+}
+
+const newRoute = new Route({ from, to, date: routeDate, price, busNumber, duration, departureTime, arrivalTime });
+
     
     // Сохранение нового маршрута в базе данных
     await newRoute.save();
@@ -49,6 +68,8 @@ router.delete('/routes/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
+    await Ticket.deleteMany({ route: id });
+
     // Поиск маршрута по id и удаление его
     const deletedRoute = await Route.findByIdAndDelete(id);
     

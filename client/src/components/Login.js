@@ -1,15 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext'; // Импортируем AuthContext
+import { AuthContext } from '../context/AuthContext';
 import '../styles/Auth.css';
 
 const Login = ({ onClose, onSwitchToRegister }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser, setIsAuth } = useContext(AuthContext); // Используем контекст для доступа к setUser и setIsAuth
+  const { setUser, setIsAuth } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,17 +19,12 @@ const Login = ({ onClose, onSwitchToRegister }) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
-    try {
-      console.log('Form data:', formData);  // Логируем перед отправкой
 
+    try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -41,15 +33,21 @@ const Login = ({ onClose, onSwitchToRegister }) => {
       }
 
       const data = await response.json();
-      localStorage.setItem('token', data.token);
-      
-      // Обновляем состояние аутентификации
-      setUser({ email: formData.email });
-      setIsAuth(true);
 
+      // 💾 Сохраняем токен в localStorage
+      localStorage.setItem('token', data.token);
+
+      // 🧠 Сохраняем пользователя в контекст
+      setUser({
+        email: formData.email,
+        token: data.token,
+        userId: data.userId,
+      });
+
+      setIsAuth(true);
       onClose();
     } catch (err) {
-      console.error('Error response:', err.message);
+      console.error('❌ Ошибка логина:', err.message);
       setError(err.message || 'Ошибка входа');
     } finally {
       setIsLoading(false);
@@ -59,14 +57,9 @@ const Login = ({ onClose, onSwitchToRegister }) => {
   return (
     <div className="auth-modal-overlay">
       <div className="auth-modal">
-        <button className="auth-close-btn" onClick={onClose}>
-          &times;
-        </button>
-        
+        <button className="auth-close-btn" onClick={onClose}>&times;</button>
         <h2 className="auth-title">Вход в аккаунт</h2>
-        
         {error && <div className="auth-error">{error}</div>}
-        
         <form onSubmit={handleSubmit}>
           <div className="auth-input-group">
             <label>Email</label>
@@ -79,7 +72,6 @@ const Login = ({ onClose, onSwitchToRegister }) => {
               placeholder="Ваш email"
             />
           </div>
-          
           <div className="auth-input-group">
             <label>Пароль</label>
             <input
@@ -91,16 +83,10 @@ const Login = ({ onClose, onSwitchToRegister }) => {
               placeholder="Ваш пароль"
             />
           </div>
-          
-          <button 
-            type="submit" 
-            className="auth-submit-btn"
-            disabled={isLoading}
-          >
+          <button type="submit" className="auth-submit-btn" disabled={isLoading}>
             {isLoading ? 'Вход...' : 'Войти'}
           </button>
         </form>
-        
         <div className="auth-switch">
           Нет аккаунта?{' '}
           <button className="auth-switch-btn" onClick={onSwitchToRegister}>

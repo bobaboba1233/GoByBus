@@ -1,30 +1,77 @@
-// components/RouteList.js
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/routeList.css';
 
-function RouteList({ routes }) {
-  if (!routes.length) {
-    return <p style={{ textAlign: 'center', marginTop: '20px' }}>Маршруты не найдены.</p>;
+const RouteList = ({ routes }) => {
+  const navigate = useNavigate();
+
+  if (routes.length === 0) {
+    return (
+      <div className="route-list-container">
+        <div className="route-empty">Маршруты не найдены. Попробуйте изменить параметры поиска.</div>
+      </div>
+    );
   }
 
+  const handleBookClick = (routeId) => {
+    navigate(`/ticket/${routeId}`);
+  };
+
   return (
-    <div style={{ maxWidth: '800px', margin: '30px auto' }}>
-      <h2 style={{ textAlign: 'center' }}>Доступные маршруты</h2>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {routes.map(route => (
-          <li key={route._id} style={{
-            padding: '12px',
-            borderBottom: '1px solid #eee',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            <span>{route.departureCity} → {route.arrivalCity}</span>
-            <span>{route.price} ₽</span>
-          </li>
-        ))}
-      </ul>
+    <div className="route-list-container">
+      <h2>Найденные маршруты</h2>
+      <table className="route-table">
+        <thead>
+          <tr>
+            <th>Отправление</th>
+            <th>Прибытие</th>
+            <th>Время в пути</th>
+            <th>Тип транспорта</th>
+            <th>Цена</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {routes.map(route => (
+            <tr key={route._id}>
+              <td data-label="Отправление">
+                <div className="time-cell">
+                  <span className="time">
+                    {new Date(route.date).toLocaleDateString()} {route.departureTime}
+                  </span>
+                  <span className="city">{route.from}</span>
+                </div>
+              </td>
+              <td data-label="Прибытие">
+                <div className="time-cell">
+                  <span className="time">
+                    {new Date(route.arrivalTime).toLocaleString().substring(0, 17)}
+                  </span>
+                  <span className="city">{route.to}</span>
+                </div>
+              </td>
+              <td data-label="Время в пути">
+                {route.duration} ч
+              </td>
+              <td data-label="Тип транспорта">
+                <span className="transport-badge">{route.transportType}</span>
+              </td>
+              <td data-label="Цена">
+                <span className="price">{route.price} ₽</span>
+              </td>
+              <td>
+                <button 
+                  className="book-button"
+                  onClick={() => handleBookClick(route._id)}
+                >
+                  Выбрать
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
 export default RouteList;

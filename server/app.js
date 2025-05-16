@@ -13,19 +13,19 @@ app.use(express.json()); // Обработка JSON
 
 app.use(cors({
   origin: 'http://localhost:3000', // URL вашего фронтенда
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Authorization', 'Content-Type'], // Разрешаем Authorization
 }));
 app.use(bodyParser.json());
 // Подключение роутов
-app.use('/api/routes', routesRoutes);
+app.use('/api', routesRoutes); // Все роуты теперь начинаются с /api
 // Далее твои маршруты
 app.use('/api/auth', require('./routes/auth'));
-
+app.use('/api/user', require('./routes/user'));
+app.use('/api/tickets', require('./routes/tickets'));
 
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/gobybus', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
 })
 .then(() => console.log('MongoDB подключена'))
 .catch(err => console.error('Ошибка MongoDB:', err));
@@ -34,4 +34,4 @@ mongoose.connect('mongodb://localhost:27017/gobybus', {
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
-});
+}); 
