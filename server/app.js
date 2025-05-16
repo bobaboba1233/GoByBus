@@ -13,7 +13,7 @@ app.use(express.json()); // Обработка JSON
 
 app.use(cors({
   origin: 'http://localhost:3000', // URL вашего фронтенда
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Authorization', 'Content-Type'], // Разрешаем Authorization
 }));
 app.use(bodyParser.json());

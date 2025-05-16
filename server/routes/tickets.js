@@ -33,9 +33,10 @@ router.post('/', auth, async (req, res) => {
     // Явная проверка перед сохранением
     const exists = await Ticket.findOne({ 
     route: routeId, 
-    seatNumber 
+    seatNumber,
+    status: 'booked' 
   });
-  
+  console.log("ticket: " + seatNumber);
   if (exists) {
     return res.status(400).json({ error: "Место уже занято" });
   }
@@ -106,36 +107,62 @@ router.get('/id/:id', auth, async (req, res) => {
 
 
 
-// Отмена билета
+// PATCH /api/tickets/:id/cancel - Отмена билета
 router.patch('/:id/cancel', auth, async (req, res) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-  
   try {
-    const ticket = await Ticket.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      { status: 'cancelled' },
-      { new: true, session }
-    ).populate('route');
+    // 1. Проверяем существование билета
+    const ticket = await Ticket.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+      status: 'booked' // Можно отменять только активные билеты
+    }).populate('route');
 
     if (!ticket) {
-      return res.status(404).json({ error: 'Билет не найден' });
+      return res.status(404).json({ 
+        error: 'Билет не найден, уже использован или отменен',
+        details: 'Не удалось найти активный билет для отмены'
+      });
     }
 
-    // Возвращаем место в доступные
-    await Route.findByIdAndUpdate(
-      ticket.route.id,
-      { $push: { availableSeats: ticket.seatNumber } },
-      { session }
-    );
+    // 2. Обновляем статус билета
+    ticket.status = 'cancelled';
+    await ticket.save();
 
-    await session.commitTransaction();
-    res.json(ticket);
+    // 3. Возвращаем место в доступные
+    await mongoose.model("Route").findByIdAndUpdate(
+      ticket.route._id,
+      { $addToSet: { availableSeats: ticket.seatNumber } }
+    );
+    // Сортируем массив
+    await mongoose.model("Route").findByIdAndUpdate(
+      ticket.route._id,
+      { $push: { availableSeats: { $each: [], $sort: 1 } } }
+    );
+    res.json({
+      success: true,
+      message: 'Билет успешно отменен',
+      ticket: {
+        _id: ticket._id,
+        bookingReference: ticket.bookingReference,
+        status: ticket.status,
+        seatNumber: ticket.seatNumber,
+        route: ticket.route._id
+      }
+    });
   } catch (error) {
-    await session.abortTransaction();
-    res.status(500).json({ error: 'Ошибка при отмене билета' });
-  } finally {
-    session.endSession();
+  console.error('Full error:', error); // Логируем весь объект ошибки
+  console.error('Error details:', {
+    message: error.message,
+    code: error.code,
+    stack: error.stack,
+    ticketId: req.params.id,
+    userId: req.user.id
+  });
+    
+    res.status(500).json({ 
+      error: 'Ошибка при отмене билета',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Внутренняя ошибка сервера'
+    });
   }
 });
 

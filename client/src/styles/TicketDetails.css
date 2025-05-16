@@ -5,6 +5,7 @@
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
 
 .ticket-header {
@@ -14,9 +15,9 @@
   margin-bottom: 1rem;
 }
 
-.back-btn, .print-btn {
+.back-btn, .print-btn, .cancel-btn {
   background: #324353;
-  color:    white;
+  color: white;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
@@ -24,12 +25,28 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.back-btn:hover, 
+.print-btn:hover, 
+.cancel-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background: #475b6e;
 }
 
 .ticket-card {
   padding: 1rem;
   border-radius: 8px;
   background: #f9f9f9;
+  transition: transform 0.3s ease;
+}
+
+.ticket-card:hover {
+  transform: translateY(-2px);
 }
 
 .ticket-row {
@@ -37,22 +54,60 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.ticket-row:hover {
+  background-color: #f0f0f0;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.cancel-btn {
+  background-color: #324353;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: #3c5063;
+}
+
+.cancel-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.status {
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .status.booked {
-  color: green;
+  color: #2e7d32;
+  background-color: rgba(46, 125, 50, 0.1);
 }
 
 .status.used {
-  color: gray;
+  color: #616161;
+  background-color: rgba(97, 97, 97, 0.1);
 }
 
 .status.cancelled {
-  color: red;
+  color: #c62828;
+  background-color: rgba(198, 40, 40, 0.1);
 }
 
 @media print {
-  .back-btn, .print-btn {
+  .back-btn, .print-btn, .ticket-actions {
     display: none;
   }
 
@@ -65,4 +120,19 @@
     margin: 0;
     padding: 0;
   }
+  
+  .ticket-card {
+    background: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* Анимация при загрузке */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ticket-details {
+  animation: fadeIn 0.4s ease-out forwards;
 }

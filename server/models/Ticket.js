@@ -39,9 +39,13 @@ const ticketSchema = new mongoose.Schema({
   
 }, { timestamps: true });
 
+// В модели Ticket (models/Ticket.js)
 ticketSchema.index(
   { route: 1, seatNumber: 1 }, 
-  { unique: true, name: "unique_route_seat" }
+  { 
+    unique: true,
+    partialFilterExpression: { status: 'booked' } 
+  }
 );
 // Генерация номера брони перед сохранением
 ticketSchema.pre('save', async function(next) {
