@@ -17,7 +17,7 @@ const Profile = () => {
     // Загружаем информацию о пользователе при монтировании компонента
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/profile', {
+        const response = await axios.get('/api/user/profile', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -44,7 +44,7 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put('http://localhost:5000/api/user/profile', formData, {
+      const response = await axios.put('/api/user/profile', formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

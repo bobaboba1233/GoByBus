@@ -15,7 +15,7 @@ const TicketDetails = () => {
     const fetchTicket = async () => {
       const token = localStorage.getItem('token');
       try {
-        const res = await fetch(`http://localhost:5000/api/tickets/id/${id}`, {
+        const res = await fetch(`/api/tickets/id/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -51,7 +51,7 @@ const TicketDetails = () => {
     
     try {
       // 1. Отправляем запрос на отмену
-      const cancelRes = await fetch(`http://localhost:5000/api/tickets/${id}/cancel`, {
+      const cancelRes = await fetch(`/api/tickets/${id}/cancel`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -62,7 +62,7 @@ const TicketDetails = () => {
       if (!cancelRes.ok) throw new Error('Ошибка при отмене билета');
 
       // 2. Перезагружаем данные после успешной отмены
-      const refreshRes = await fetch(`http://localhost:5000/api/tickets/id/${id}`, {
+      const refreshRes = await fetch(`/api/tickets/id/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

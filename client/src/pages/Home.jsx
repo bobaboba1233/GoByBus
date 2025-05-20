@@ -20,7 +20,7 @@
       }
       };
 
-      axios.get('http://localhost:5000/api/routes')
+      axios.get('/api/routes')
         .then(response => {
           setRoutes(response.data);
           setFilteredRoutes(response.data);

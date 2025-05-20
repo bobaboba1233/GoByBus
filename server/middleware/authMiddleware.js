@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ message: 'Не авторизован' });
   }
 
-  jwt.verify(token, 'bogdan', (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       console.log('❌ Ошибка верификации токена:', err.message);
       return res.status(403).json({ message: 'Ошибка авторизации' });

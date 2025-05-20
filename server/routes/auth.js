@@ -9,10 +9,10 @@ const auth = require('../middleware/authMiddleware'); // Middleware для пр�
 
 // Создание транспортера для отправки email
 const transporter = nodemailer.createTransport({
-  service: 'mail.ru', // Используем сервис Gmail
+  service: process.env.EMAIL_SERVICE,
   auth: {
-    user: 'bogdan.shustrov@mail.ru',  // Замени на свой email
-    pass: 'tBBWFj22uFbA5dvsjFK2',   // Замени на свой пароль
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
   },
    tls: {
     rejectUnauthorized: false // Некоторые серверы требуют это, чтобы избежать ошибок с безопасностью
@@ -23,7 +23,7 @@ const sendConfirmationEmail = (email, token) => {
   const confirmationLink = `http://localhost:5000/api/auth/confirm-email?token=${token}`;
 
   const mailOptions = {
-    from: 'bogdan.shustrov@mail.ru',  // Замени на свой email
+    from: process.env.EMAIL_FROM,  // Замени на свой email
     to: email,
     subject: 'Подтверждение email',
     html: `
@@ -122,7 +122,6 @@ router.post('/login',  async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'Пользователь не найден' });
     }
-    console.log(await bcrypt.compare('bog2004', user.password));
     if (!user.isConfirmed) {
       return res.status(400).json({ message: 'Пожалуйста, подтвердите ваш email' });
     }
@@ -132,7 +131,7 @@ router.post('/login',  async (req, res) => {
     }
     const token = jwt.sign(
       { userId: user.id },
-      'bogdan', // ⚠️ проверь что одинаков везде
+      process.env.JWT_SECRET, // ⚠️ проверь что одинаков везде
       { expiresIn: '1d' }
     );
 

@@ -18,7 +18,7 @@ useEffect(() => {
         throw new Error('Требуется авторизация');
       }
 
-      const response = await fetch(`http://localhost:5000/api/tickets/id/${ticketId}`, {
+      const response = await fetch(`/api/tickets/id/${ticketId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

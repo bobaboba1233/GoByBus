@@ -22,7 +22,7 @@ const ProfileTickets = () => {
       }
     const fetchTickets = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/tickets/my', {
+        const response = await fetch('/api/tickets/my', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

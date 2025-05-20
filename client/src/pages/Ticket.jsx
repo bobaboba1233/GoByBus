@@ -47,7 +47,7 @@ const Ticket = () => {
           throw new Error('Не авторизован. Пожалуйста, войдите в аккаунт.');
         }
 
-        const response = await fetch(`http://localhost:5000/api/routes/${routeId}`, {
+        const response = await fetch(`/api/routes/${routeId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const handleSubmit = async (e) => {
 
   try {
     console.log(routeId, selectedSeat); 
-    const response = await fetch('http://localhost:5000/api/tickets', {
+    const response = await fetch('/api/tickets', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',

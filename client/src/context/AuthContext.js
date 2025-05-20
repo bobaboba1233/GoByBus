@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         console.log('Token from localStorage:', token); // Логирование для отладки
         if (token) {
-          const meRes = await fetch('http://localhost:5000/api/auth/me', {
+          const meRes = await fetch('/api/auth/me', {
             headers: {
               'Authorization': `Bearer ${token}`
             },
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       console.log('Received token:', data.token); // Логирование токена для отладки
       localStorage.setItem('token', data.token);
 
-      const meRes = await fetch('http://localhost:5000/api/auth/me', {
+      const meRes = await fetch('/api/auth/me', {
          headers: {
         'Authorization': `Bearer ${data.token}`,
         },

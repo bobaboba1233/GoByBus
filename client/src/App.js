@@ -12,6 +12,7 @@ import BookingConfirmation from './pages/BookingConfirmation';
 import Support from './pages/Support';
 import ProfileTickets from './pages/ProfileTickets';
 import TicketDetails from './pages/TicketDetails';
+import './App.css';
 function App() {
   return (
     

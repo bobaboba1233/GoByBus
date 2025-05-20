@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 // Импорт роутов
 const routesRoutes = require('./routes/routes');
@@ -31,7 +32,7 @@ mongoose.connect('mongodb://localhost:27017/gobybus', {
 .catch(err => console.error('Ошибка MongoDB:', err));
 
 // Запуск сервера
-const PORT = 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 }); 

@@ -33,12 +33,25 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+  position:relative;
 }
 
 .nav a:hover {
   color: #1e2022;
 }
-
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #1201ff;
+  transition: width 0.3s;
+}
+.nav a:hover::after {
+  width: 100%;
+}
 .auth-link {
   background: none;
   border: none;
@@ -137,5 +150,9 @@
   
   .dropdown-menu {
     right: -20px;
+  }
+    .nav a, .auth-link {
+    font-size: 14px;
+    padding: 6px 10px !important;
   }
 }
