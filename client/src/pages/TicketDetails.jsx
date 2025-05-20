@@ -76,7 +76,7 @@ const TicketDetails = () => {
     } finally {
       setIsCancelling(false);
     }
-  };
+  };  
   if (loading) return (
     <div className="loading-container">
       <div className="loading-spinner"></div>
