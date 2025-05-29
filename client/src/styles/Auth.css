@@ -1,141 +1,175 @@
-/* Основные стили модального окна */
 .auth-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(3px);
-  }
-  
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: overlayFade 0.3s ease-out;
+}
+
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.auth-modal {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: modalSlideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.auth-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+.auth-input-group {
+  margin-bottom: 24px;
+}
+
+.auth-input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.auth-input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.auth-input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.auth-input-group input:focus {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.auth-submit-btn:active {
+  transform: translateY(0);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.auth-switch-btn {
+  background: none;
+  border: none;
+  color: #8b5cf6;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: opacity 0.2s;
+}
+
+.auth-switch-btn:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.auth-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  padding: 14px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 14px;
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  padding: 14px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
   .auth-modal {
-    background: white;
+    padding: 32px 24px;
+    margin: 0 16px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
-    position: relative;
-    animation: fadeIn 0.3s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .auth-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #888;
-    transition: color 0.2s;
-  }
-  
-  .auth-close-btn:hover {
-    color: #333;
   }
   
   .auth-title {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
     font-size: 24px;
   }
-  
-  /* Стили формы */
-  .auth-input-group {
-    margin-bottom: 20px;
-  }
-  
-  .auth-input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #555;
-  }
-  
-  .auth-input-group input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border 0.3s, box-shadow 0.3s;
-  }
-  
-  .auth-input-group input:focus {
-    border-color: #646cff;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
-  }
-  
-  /* Кнопка отправки */
-  .auth-submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: #646cff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-    margin-top: 10px;
-  }
-  
-  .auth-submit-btn:hover {
-    background: #535bf2;
-  }
-  
-  .auth-submit-btn:active {
-    transform: scale(0.98);
-  }
-  
-  .auth-submit-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Переключение между формами */
-  .auth-switch {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-  }
-  
-  .auth-switch-btn {
-    background: none;
-    border: none;
-    color: #646cff;
-    cursor: pointer;
-    font-weight: 500;
-    padding: 0;
-    margin-left: 5px;
-  }
-  
-  .auth-switch-btn:hover {
-    text-decoration: underline;
-    background-color: white;
-  }
-  
-  /* Ошибки */
-  .auth-error {
-    color: #ff4444;
-    background: #ffebee;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 14px;
-  }
+}
